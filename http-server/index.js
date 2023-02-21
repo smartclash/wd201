@@ -1,8 +1,13 @@
 import http from 'http';
 import {readFileSync} from 'fs';
+import minimist from 'minimist';
+
+const argv = minimist(process.argv.slice(2));
+const PORT = argv['port'] || 3000;
 
 const homeFile = readFileSync('home.html').toString();
 const projectFile = readFileSync('project.html').toString();
+const registrationFile = readFileSync('registration.html').toString();
 
 http.createServer((request, response) => {
   const URL = request.url;
@@ -12,10 +17,13 @@ http.createServer((request, response) => {
     case "/project":
       response.write(projectFile);
       break;
+    case "/registration":
+      response.write(registrationFile);
+      break;
     default:
       response.write(homeFile);
       break;
   }
 
   response.end();
-}).listen(3000);
+}).listen(PORT);

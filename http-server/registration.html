@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple tailwind HTML form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100">
+    <div class="container mx-auto py-4">
+        <div class="flex justify-center">
+            <div class="block p-6 rounded-lg shadow-lg bg-white">
+                <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">Registration Form</h5>
+                <form id="form">
+                    <div class="form-group mb-6">
+                        <label for="name" class="form-label inline-block mb-2 text-gray-700">Name</label>
+                        <input type="text" class="form-control
+                              block
+                              w-full
+                              px-3
+                              py-1.5
+                              text-base
+                              font-normal
+                              text-gray-700
+                              bg-white bg-clip-padding
+                              border border-solid border-gray-300
+                              rounded
+                              transition
+                              ease-in-out
+                              m-0
+                              focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="name"
+                            placeholder="Enter your name" name="name" required>
+                    </div>
+
+                    <div class="form-group mb-6">
+                        <label for="email" class="form-label inline-block mb-2 text-gray-700">Email
+                            address</label>
+                        <input type="email" class="form-control
+                              block
+                              w-full
+                              px-3
+                              py-1.5
+                              text-base
+                              font-normal
+                              text-gray-700
+                              bg-white bg-clip-padding
+                              border border-solid border-gray-300
+                              rounded
+                              transition
+                              ease-in-out
+                              m-0
+                              focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="email"
+                            placeholder="Enter your email" name="email"  required>
+                    </div>
+
+                    <div class="form-group mb-6">
+                        <label for="password" class="form-label inline-block mb-2 text-gray-700">Password</label>
+                        <input type="password" class="form-control
+                              block
+                              w-full
+                              px-3
+                              py-1.5
+                              text-base
+                              font-normal
+                              text-gray-700
+                              bg-white bg-clip-padding
+                              border border-solid border-gray-300
+                              rounded
+                              transition
+                              ease-in-out
+                              m-0
+                              focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                            id="password" placeholder="Enter password" name="password" required>
+                    </div>
+
+                    <div class="form-group mb-6">
+                        <label for="dob" class="form-label inline-block mb-2 text-gray-700">Date of birth</label>
+                        <input type="date" class="form-control
+                              block
+                              w-full
+                              px-3
+                              py-1.5
+                              text-base
+                              font-normal
+                              text-gray-700
+                              bg-white bg-clip-padding
+                              border border-solid border-gray-300
+                              rounded
+                              transition
+                              ease-in-out
+                              m-0
+                              focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="dob"
+                            aria-describedby="emailHelp" placeholder="Enter date of birth" name="dob" required
+                            min="1967-01-01" max="2005-12-30" />
+                    </div>
+                    <div class="form-group mb-6">
+                        <label for="terms" class="form-label inline-block mb-2 text-gray-700">I accept terms and conditions</label>
+                        <input type="checkbox" class="form-control
+                              block
+                              w-full
+                              px-3
+                              py-1.5
+                              text-base
+                              font-normal
+                              text-gray-700
+                              bg-white bg-clip-padding
+                              border border-solid border-gray-300
+                              rounded
+                              transition
+                              ease-in-out
+                              m-0
+                              focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="terms"
+                            aria-describedby="emailHelp" name="terms" required>
+                    </div>
+                    <button type="submit" class="inline-block px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out">
+                        Submit
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="flex justify-center mt-10">
+            <div class="block p-6 rounded-lg shadow-lg bg-white">
+                <table class="table-auto border-separate border-spacing-2 border">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Dob</th>
+                            <th>Accepted terms?</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <tr>
+                            <td colspan="5" class="text-center">No data available</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('form');
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+
+            let dataObject = {};
+            const data = new FormData(form);
+            for (const [name, value] of data) {
+                // VERY dirty fix to get done with this
+                if (value == "on") {
+                    dataObject[name] = "true";
+
+                    continue
+                }
+
+                dataObject[name] = value;
+            }
+
+            const submissions = localStorage.getItem('submissions');
+            if (submissions) {
+                let parsedSubmissions = JSON.parse(submissions);
+                parsedSubmissions.push(dataObject);
+
+                localStorage.setItem('submissions', JSON.stringify(parsedSubmissions));
+            } else {
+                let wrapper = [];
+                wrapper.push(dataObject);
+
+                localStorage.setItem('submissions', JSON.stringify(wrapper));
+            }
+
+            drawTable();
+        });
+
+        const drawTable = () => {
+            let tableRows = [];
+            const tBody = document.getElementById('table-body');
+            const submissions = JSON.parse(localStorage.getItem('submissions'));
+
+            if (!submissions) return;
+
+            for (const {name, email, password, dob, terms} of submissions) {
+                const tableRow = "<tr>"
+                    + "<td>" + name + "</td>"
+                    + "<td>" + email + "</td>"
+                    + "<td>" + password + "</td>"
+                    + "<td>" + dob + "</td>"
+                    + "<td>" + terms + "</td>"
+                + "</tr>";
+
+                tableRows.push(tableRow);
+            }
+
+            tBody.innerHTML = tableRows.join('\n');
+        }
+
+        drawTable();
+    </script>
+</body>
+</html>
