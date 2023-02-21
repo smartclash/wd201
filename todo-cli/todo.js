@@ -22,7 +22,7 @@ const todoList = () => {
 
   const toDisplayableList = list =>
     list.map(todo => {
-      let checkbox = todo.completed ? '[X]' : '[ ]';
+      let checkbox = todo.completed ? '[x]' : '[ ]';
       const text = checkbox + ' ' + todo.title + ' ';
 
       return dateify(todo.dueDate) == dateify(new Date())
