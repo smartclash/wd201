@@ -3,6 +3,7 @@ import {readFileSync} from 'fs';
 
 const args = process.argv.slice(2);
 const PORT = (() => {
+  // If no port is passed, default to 3000
   if (args.length <= 0)
     return 3000;
 
