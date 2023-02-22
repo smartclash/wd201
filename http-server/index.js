@@ -1,9 +1,13 @@
 import http from 'http';
 import {readFileSync} from 'fs';
-import minimist from 'minimist';
 
-const argv = minimist(process.argv.slice(2));
-const PORT = argv['port'] || 3000;
+const args = process.argv.slice(2);
+const PORT = (() => {
+  if (args.length <= 0)
+    return 3000;
+
+  return args[1];
+})();
 
 const homeFile = readFileSync('home.html').toString();
 const projectFile = readFileSync('project.html').toString();
@@ -26,4 +30,4 @@ http.createServer((request, response) => {
   }
 
   response.end();
-}).listen(PORT);
+}).listen(PORT, () => console.log(`Listening on PORT ${PORT}`));
