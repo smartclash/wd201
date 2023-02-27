@@ -1,5 +1,5 @@
-import http from 'http';
-import {readFileSync} from 'fs';
+const http = require('http');
+const {readFileSync} = require('fs');
 
 const args = process.argv.slice(2);
 const PORT = (() => {
