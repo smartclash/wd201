@@ -1,14 +1,9 @@
 const http = require('http');
 const {readFileSync} = require('fs');
+const minimist = require('minimist');
 
-const args = process.argv.slice(2);
-const PORT = (() => {
-  // If no port is passed, default to 3000
-  if (args.length <= 0)
-    return 3000;
-
-  return args[1];
-})();
+const args = minimist(process.argv.slice(2));
+const PORT = args.port || 3000;
 
 const homeFile = readFileSync('home.html').toString();
 const projectFile = readFileSync('project.html').toString();

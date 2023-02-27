@@ -12,6 +12,7 @@
   "author": "Karan Sanjeev <github@alphaman.me>",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^18.14.0"
+    "@types/node": "^18.14.0",
+    "minimist": "^1.2.8"
   }
 }
